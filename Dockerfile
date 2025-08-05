@@ -1,25 +1,34 @@
 # Stage 1: Build
-FROM node:alpine AS builder
+FROM node:20 AS builder
 
 WORKDIR /app
 
-# Copy dependencies and install
+# Install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy source code and build
-COPY . .
+# Copy Prisma schema and generate client
+COPY prisma ./prisma
+RUN npx prisma generate
+
+# Copy source code and build it
+COPY tsconfig.json ./
+COPY src ./src
 RUN npm run build
 
-# Stage 2: Run
-FROM node:alpine
+# Stage 2: Production image
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy only built code and deps
-COPY --from=builder /app/package*.json ./
+# Copy only necessary files from builder
+COPY package*.json ./
+COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
-RUN npm install
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
-# Start the app
+# Optional: copy Prisma files if your app uses migrations/seeding
+COPY prisma ./prisma
+
 CMD ["node", "dist/index.js"]
