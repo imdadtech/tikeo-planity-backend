@@ -10,6 +10,8 @@ RUN npm install
 # Copy Prisma schema and generate client
 COPY prisma ./prisma
 RUN npx prisma generate
+RUN npx prisma migrate deploy
+
 
 # Copy source code and build it
 COPY tsconfig.json ./
