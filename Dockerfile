@@ -7,11 +7,13 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
+# to remove in the real production
 ENV DATABASE_URL="postgresql://imdad:4tkVVqnd6zMboHariTLWtKMJwOwj06rL@dpg-d28p386uk2gs73fka4rg-a.frankfurt-postgres.render.com/tikeodb"
 
 # Copy Prisma schema and generate client
 COPY prisma ./prisma
 RUN npx prisma generate
+# to remove in the real production
 RUN npx prisma migrate deploy
 
 
