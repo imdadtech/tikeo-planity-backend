@@ -6,6 +6,7 @@ import authRouter from './auth/routes/auth.route';
 import userRouter from './user/routes/user.route';
 import providersRouter from './providers/routes/providers.route';
 import initializePassport from './config/passport/initialize';
+import isAProvider from './middlewares/isAProvider';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,7 +24,12 @@ app.get('/', (_req, res) => {
 
 app.use(`${BASE_URL}/auth`, authRouter);
 app.use(`${BASE_URL}/user`, userRouter);
-app.use(`${BASE_URL}/providers`, providersRouter);
+app.use(
+  `${BASE_URL}/providers`,
+  passport.authenticate('jwt', { session: false }),
+  isAProvider,
+  providersRouter,
+);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
