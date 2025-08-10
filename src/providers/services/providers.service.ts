@@ -18,6 +18,14 @@ class ProvidersService {
       },
     });
   }
+
+  async getProviderByUserId(userId: string) {
+    return prisma.provider.findUnique({
+      where: {
+        userId: userId,
+      },
+    });
+  }
 }
 
 const providersService = new ProvidersService();
