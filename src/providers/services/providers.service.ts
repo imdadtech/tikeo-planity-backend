@@ -26,6 +26,26 @@ class ProvidersService {
       },
     });
   }
+
+  async updateProvider(
+    userId: string,
+    businessName?: string,
+    description?: string,
+    address?: string,
+    linkCode?: string,
+  ) {
+    return prisma.provider.update({
+      where: {
+        userId: userId,
+      },
+      data: {
+        businessName,
+        description,
+        address,
+        linkCode,
+      },
+    });
+  }
 }
 
 const providersService = new ProvidersService();
