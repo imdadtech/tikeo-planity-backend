@@ -21,4 +21,6 @@ const CreateServiceSchema = z.object({
     .optional(),
 });
 
+export type CreateServiceDto = z.infer<typeof CreateServiceSchema>;
+
 export { CreateServiceSchema };
