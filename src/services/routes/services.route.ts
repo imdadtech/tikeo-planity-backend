@@ -3,7 +3,7 @@ import create from '../controllers/create';
 
 const servicesRouter = Router();
 
-servicesRouter.post('/services', create);
-servicesRouter.get('/services');
+servicesRouter.post('/', create);
+// servicesRouter.get('/');
 
 export default servicesRouter;

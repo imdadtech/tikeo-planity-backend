@@ -30,18 +30,18 @@ model User {
 }
 
 model Provider {
-  id           String    @id @default(uuid())
-  userId       String    @unique
-  user         User      @relation(fields: [userId], references: [id])
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id])
   businessName String
   description  String?
   address      String?
   photoUrl     String?
-  linkCode     String    @unique
-  active       Boolean   @default(false)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  services     Service[]
+  linkCode     String   @unique
+  active       Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  service      Service?
 }
 
 model ServiceOption {
@@ -56,7 +56,7 @@ model ServiceOption {
 
 model Service {
   id          String          @id @default(uuid())
-  providerId  String
+  providerId  String          @unique
   provider    Provider        @relation(fields: [providerId], references: [id])
   name        String
   description String?

@@ -19,10 +19,13 @@ class ProvidersService {
     });
   }
 
-  async getProviderByUserId(userId: string) {
+  async getProviderByUserId(userId: string, includeService = false) {
     return prisma.provider.findUnique({
       where: {
         userId: userId,
+      },
+      include: {
+        service: includeService,
       },
     });
   }
