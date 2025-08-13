@@ -25,6 +25,19 @@ class ServicesService {
       },
     });
   }
+
+  async getServiceByUserId(userId: string) {
+    return prisma.service.findFirst({
+      where: {
+        provider: {
+          userId: userId,
+        },
+      },
+      include: {
+        options: true,
+      },
+    });
+  }
 }
 
 const servicesService = new ServicesService();
