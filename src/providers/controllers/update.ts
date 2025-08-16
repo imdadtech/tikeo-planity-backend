@@ -16,9 +16,16 @@ async function update(req: Request, res: Response) {
     if (!jsonHasKey) {
       return res.status(400).json({ message: 'No data provided for update' });
     }
-    const { businessName, description, address, linkCode } = validationBodyResult.data;
+    const { businessName, description, address, linkCode, website } = validationBodyResult.data;
 
-    await providersService.updateProvider(userId, businessName, description, address, linkCode);
+    await providersService.updateProvider(
+      userId,
+      businessName,
+      description,
+      address,
+      linkCode,
+      website,
+    );
 
     return res.status(200).json({
       message: 'Provider updated successfully',

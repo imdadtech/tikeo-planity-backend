@@ -12,6 +12,10 @@ const CreateProviderDataSchema = z.object({
     .string()
     .min(3, 'Link code is required')
     .max(50, 'Link code must be less than 50 characters'),
+  currency: z
+    .string()
+    .min(3, 'Currency code is required')
+    .max(10, 'Currency code must be less than 10 characters'),
 });
 
 export { CreateProviderDataSchema };

@@ -7,6 +7,8 @@ class ProvidersService {
     userId: string,
     address?: string,
     description?: string,
+    website?: string,
+    currency?: string,
   ) {
     return prisma.provider.create({
       data: {
@@ -14,6 +16,8 @@ class ProvidersService {
         description,
         address,
         linkCode,
+        website,
+        currency,
         userId: userId,
       },
     });
@@ -36,6 +40,7 @@ class ProvidersService {
     description?: string,
     address?: string,
     linkCode?: string,
+    website?: string,
   ) {
     return prisma.provider.update({
       where: {
@@ -46,6 +51,7 @@ class ProvidersService {
         description,
         address,
         linkCode,
+        website,
       },
     });
   }

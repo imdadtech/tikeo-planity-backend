@@ -12,9 +12,18 @@ async function create(req: Request, res: Response) {
 
   try {
     const userId = (req.user as User).id;
-    const { businessName, description, address, linkCode } = validationBodyResult.data;
+    const { businessName, description, address, linkCode, website, currency } =
+      validationBodyResult.data;
 
-    await providersService.createProvider(businessName, linkCode, userId!, address, description);
+    await providersService.createProvider(
+      businessName,
+      linkCode,
+      userId!,
+      address,
+      description,
+      website,
+      currency,
+    );
 
     return res.status(201).json({
       message: 'Provider created successfully',

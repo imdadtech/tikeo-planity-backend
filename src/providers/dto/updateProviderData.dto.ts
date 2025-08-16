@@ -14,6 +14,7 @@ const UpdateProviderDataSchema = z
       .min(3, 'Link code is required')
       .max(50, 'Link code must be less than 50 characters')
       .optional(),
+    website: z.string().min(3).max(100, 'Website must be less than 100 characters').optional(),
   })
   .strict();
 
