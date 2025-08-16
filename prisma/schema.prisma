@@ -16,17 +16,16 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
+  id           String    @id @default(uuid())
   name         String
-  email        String   @unique
+  email        String    @unique
   password     String
   role         String
   phone        String
   refreshToken String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  Provider Provider?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  Provider     Provider?
 }
 
 model Provider {
@@ -42,13 +41,14 @@ model Provider {
   active       Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  currency     String   @default("XOF")
   service      Service?
 }
 
 model ServiceOption {
   id        String   @id @default(uuid())
   name      String
-  price     Float
+  price     Decimal
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   serviceId String
@@ -62,7 +62,7 @@ model Service {
   name        String
   description String?
   duration    Int // Duration in minutes
-  price       Float
+  price       Decimal
   options     ServiceOption[] @relation("ServiceOptions")
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
