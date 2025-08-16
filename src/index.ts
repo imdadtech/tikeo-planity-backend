@@ -8,6 +8,7 @@ import providersRouter from './providers/routes/providers.route';
 import servicesRouter from './services/routes/services.route';
 import initializePassport from './config/passport/initialize';
 import isAProvider from './middlewares/isAProvider';
+import currencyRouter from './currency/routes/currency.route';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -37,6 +38,7 @@ app.use(
   isAProvider,
   servicesRouter,
 );
+app.use(`${BASE_URL}/currencies`, currencyRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
