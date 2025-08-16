@@ -37,6 +37,7 @@ model Provider {
   description  String?
   address      String?
   photoUrl     String?
+  website      String?
   linkCode     String   @unique
   active       Boolean  @default(false)
   createdAt    DateTime @default(now())
