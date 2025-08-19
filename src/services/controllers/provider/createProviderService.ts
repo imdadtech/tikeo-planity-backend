@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { CreateServiceSchema } from '../dto/createService.dto';
-import servicesService from '../services/services.service';
-import providersService from '../../providers/services/providers.service';
+import { CreateServiceSchema } from '../../dto/createService.dto';
+import servicesService from '../../services/services.service';
+import providersService from '../../../providers/services/providers.service';
 
-async function create(req: Request, res: Response) {
+async function createProviderService(req: Request, res: Response) {
   const validationBodyResult = CreateServiceSchema.safeParse(req.body);
 
   if (!validationBodyResult.success) {
@@ -28,4 +28,4 @@ async function create(req: Request, res: Response) {
   }
 }
 
-export default create;
+export default createProviderService;

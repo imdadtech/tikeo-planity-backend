@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import servicesService from '../services/services.service';
-import { me } from '../../user/controllers/user.controller';
+import servicesService from '../../services/services.service';
+import { me } from '../../../user/controllers/user.controller';
 
-async function get(req: Request, res: Response) {
+async function getProviderService(req: Request, res: Response) {
   try {
     const userId = (req.user as { id: string }).id;
     const service = await servicesService.getServiceByUserId(userId);
@@ -13,4 +13,4 @@ async function get(req: Request, res: Response) {
   }
 }
 
-export default get;
+export default getProviderService;
