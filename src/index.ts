@@ -8,6 +8,7 @@ import providersRouter from './providers/routes/providers.route';
 import initializePassport from './config/passport/initialize';
 import isAProvider from './middlewares/isAProvider';
 import currencyRouter from './currency/routes/currency.route';
+import cors from 'cors';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,6 +16,11 @@ const BASE_URL = '/api';
 
 initializePassport(passport);
 
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+  }),
+);
 app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize());
