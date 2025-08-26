@@ -43,7 +43,7 @@ async function login(req: Request, res: Response) {
     }
     const accessToken = generateAccessToken(user.id as string);
     const refreshToken = generateRefreshToken(user.id as string);
-    await userService.updateUserByEmail(user.email, { refreshToken });
+    await userService.updateUserById(user.id as string, { refreshToken });
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
@@ -70,17 +70,17 @@ async function register(req: Request, res: Response) {
       return res.status(409).json({ message: 'User with this email already exists' });
     }
     const hashPassword = await bcrypt.hash(password, 10);
-    const accessToken = generateAccessToken(email);
-    const refreshToken = generateRefreshToken(email);
 
-    await userService.createUser({
+    const user = await userService.createUser({
       name: name,
       email: email,
       password: hashPassword,
       role: role as RoleUserType,
       phone,
-      refreshToken: refreshToken,
     });
+    const accessToken = generateAccessToken(user.id);
+    const refreshToken = generateRefreshToken(user.id);
+    await userService.updateUserById(user.id, { refreshToken });
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,

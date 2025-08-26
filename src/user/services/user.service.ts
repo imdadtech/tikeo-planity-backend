@@ -26,6 +26,13 @@ class UserService {
       data,
     });
   }
+
+  async updateUserById(id: string, data: Partial<User>) {
+    return prisma.user.update({
+      where: { id },
+      data,
+    });
+  }
 }
 
 const userService = new UserService();
