@@ -8,7 +8,8 @@ import bcrypt from 'bcrypt';
 
 const env = process.env;
 const secureCookie = env.NODE_ENV === 'production';
-const sameSiteCookie = env.NODE_ENV === 'production' ? 'strict' : 'none';
+//const sameSiteCookie = env.NODE_ENV === 'production' ? 'strict' : 'none';
+const sameSiteCookie = env.NODE_ENV === 'production' ? 'none' : 'lax';
 
 function generateAccessToken(userId: string) {
   if (!env.ACCESS_TOKEN_SECRET) {
