@@ -79,5 +79,5 @@ model Service {
   options     ServiceOption[] @relation("ServiceOptions")
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
-  Schedule    Schedule[]
+  schedulers  Schedule[]
 }

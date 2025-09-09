@@ -3,25 +3,16 @@ import { CreateServiceDto } from '../dto/createService.dto';
 
 class ServicesService {
   async createService(providerId: string, data: CreateServiceDto) {
-    if (data.options) {
-      const options = [...data.options];
-
-      return prisma.service.create({
-        data: {
-          ...data,
-          providerId,
-          options: {
-            create: options,
-          },
-        },
-      });
-    }
-
     return prisma.service.create({
       data: {
         ...data,
         providerId,
-        options: undefined,
+        options: {
+          create: data.options,
+        },
+        schedulers: {
+          create: data.schedulers,
+        },
       },
     });
   }
@@ -35,6 +26,7 @@ class ServicesService {
       },
       include: {
         options: true,
+        schedulers: true,
       },
     });
   }
