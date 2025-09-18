@@ -11,6 +11,8 @@ async function deleteSchedule(req: Request, res: Response) {
     }
 
     await schedulerService.remove(scheduleId);
+
+    return res.status(200).json({ message: 'Schedule deleted successfully' });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
       return res.status(404).json({ message: 'Schedule not found or already booked' });
