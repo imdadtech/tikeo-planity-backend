@@ -26,7 +26,6 @@ async function update(req: Request, res: Response) {
       linkCode,
       website,
     );
-
     return res.status(200).json({
       message: 'Provider updated successfully',
     });

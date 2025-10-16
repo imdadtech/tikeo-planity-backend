@@ -55,6 +55,16 @@ class ProvidersService {
       },
     });
   }
+  async updateProviderImage(userId: string, imageUrl: string) {
+    return prisma.provider.update({
+      where: {
+        userId: userId,
+      },
+      data: {
+        photoUrl: imageUrl,
+      },
+    });
+  }
 }
 
 const providersService = new ProvidersService();

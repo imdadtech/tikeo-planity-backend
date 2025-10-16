@@ -5,7 +5,7 @@ import { ROLES } from '../utils/constant';
 function isAProvider(req: Request, res: Response, next: NextFunction) {
   const user = req.user as User;
 
-  if (user && user.role === ROLES[0]) {
+  if (user && user.role === ROLES[1]) {
     next();
   } else {
     return res.status(403).json({ message: 'Forbidden' });
