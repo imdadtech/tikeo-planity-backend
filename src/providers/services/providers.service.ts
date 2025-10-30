@@ -41,6 +41,7 @@ class ProvidersService {
     address?: string,
     linkCode?: string,
     website?: string,
+    imageUrl?: string,
   ) {
     return prisma.provider.update({
       where: {
@@ -52,15 +53,6 @@ class ProvidersService {
         address,
         linkCode,
         website,
-      },
-    });
-  }
-  async updateProviderImage(userId: string, imageUrl: string) {
-    return prisma.provider.update({
-      where: {
-        userId: userId,
-      },
-      data: {
         photoUrl: imageUrl,
       },
     });

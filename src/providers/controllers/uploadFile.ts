@@ -8,22 +8,21 @@ const uploadFile = async (req: Request, res: Response) => {
     // const { userId } = req.params;
     const userId = (req.user as User).id;
     if (!userId || userId.trim() === '') {
-      return res.status(400).json({ error: 'ID utilisateur manquant' });
+      return res.status(400).json({ error: 'Missing user ID' });
     }
 
     if (!req.file) {
-      return res.status(400).json({ error: 'Aucun fichier fourni' });
+      return res.status(400).json({ error: 'No files provided' });
     }
 
     const imageUrl = await uploadToGCS(req.file.buffer, req.file.originalname, req.file.mimetype);
-    await providersService.updateProviderImage(userId, imageUrl);
+    await providersService.updateProvider(userId, imageUrl);
 
     res.json({
-      message: 'Image uploadée avec succès',
+      message: 'Image uploaded successfully',
       imageUrl: imageUrl,
     });
   } catch (error) {
-    console.error('Erreur upload:', error);
     const errorMessage = error instanceof Error ? error.message : String(error);
     res.status(500).json({ error: errorMessage });
   }

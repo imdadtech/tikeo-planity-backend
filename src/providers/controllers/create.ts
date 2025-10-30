@@ -11,8 +11,6 @@ async function create(req: Request, res: Response) {
   }
 
   try {
-    console.log('req.user', req.user);
-
     const userId = (req.user as User).id;
     const { businessName, description, address, linkCode, website, currency } =
       validationBodyResult.data;
