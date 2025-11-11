@@ -56,14 +56,15 @@ model ServiceOption {
 }
 
 model Schedule {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   serviceId String
-  service   Service  @relation(fields: [serviceId], references: [id])
+  service   Service   @relation(fields: [serviceId], references: [id])
   startTime DateTime
   endTime   DateTime
-  isBooked  Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  isBooked  Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  bookings  Booking[]
 
   @@unique([serviceId, startTime, endTime]) // Ensure unique schedules for each service and time
 }
@@ -80,4 +81,17 @@ model Service {
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   schedulers  Schedule[]
+  bookings    Booking[]
+}
+
+// waiting the customer model to be created
+model Booking {
+  id         String   @id @default(uuid())
+  serviceId  String
+  service    Service  @relation(fields: [serviceId], references: [id])
+  scheduleId String
+  schedule   Schedule @relation(fields: [scheduleId], references: [id])
+  status     String   @default("PENDING") // e.g., PENDING, CONFIRMED, CANCELLED
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

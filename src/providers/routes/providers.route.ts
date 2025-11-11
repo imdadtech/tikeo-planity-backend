@@ -7,6 +7,7 @@ import getProviderService from '../../services/controllers/provider/getProviderS
 import schedulerRouter from '../../services/routes/scheduler/scheduler.route';
 import upload from '../../middlewares/multer-config';
 import uploadFile from '../controllers/uploadFile';
+import createBookingByOwner from '../../services/controllers/provider/createBookingByOwner';
 
 const providersRouter = Router();
 
@@ -16,6 +17,7 @@ providersRouter.post('/', create);
 
 providersRouter.post(servicePath, createProviderService);
 providersRouter.get(servicePath, getProviderService);
+providersRouter.post(`${servicePath}/:serviceId/booking`, createBookingByOwner);
 providersRouter.use(schedulerRouter);
 providersRouter.put('/upload:userId', upload.single('file'), uploadFile);
 
