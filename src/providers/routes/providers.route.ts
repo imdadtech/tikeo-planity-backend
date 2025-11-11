@@ -5,6 +5,8 @@ import update from '../controllers/update';
 import createProviderService from '../../services/controllers/provider/createProviderService';
 import getProviderService from '../../services/controllers/provider/getProviderService';
 import schedulerRouter from '../../services/routes/scheduler/scheduler.route';
+import upload from '../../middlewares/multer-config';
+import uploadFile from '../controllers/uploadFile';
 
 const providersRouter = Router();
 
@@ -15,6 +17,7 @@ providersRouter.post('/', create);
 providersRouter.post(servicePath, createProviderService);
 providersRouter.get(servicePath, getProviderService);
 providersRouter.use(schedulerRouter);
+providersRouter.put('/upload:userId', upload.single('file'), uploadFile);
 
 providersRouter.get('/me', me);
 providersRouter.put('/me', update);
