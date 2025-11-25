@@ -47,4 +47,4 @@ const UpdateServiceSchema = z.object({
 
 export type UpdateServiceDto = z.infer<typeof UpdateServiceSchema>;
 
-export { UpdateServiceSchema, schedulerSchema };
+export { UpdateServiceSchema, schedulerSchema, createSchedulerSchema };
