@@ -11,6 +11,10 @@ const schedulerSchema = z
     message: 'endTime must be after startTime',
   });
 
+const createSchedulerSchema = z.object({
+  schedulers: z.array(schedulerSchema.omit({ id: true })),
+});
+
 const UpdateServiceSchema = z.object({
   name: z
     .string()
