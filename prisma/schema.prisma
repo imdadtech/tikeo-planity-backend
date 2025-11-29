@@ -1,13 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
-  //output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -22,27 +15,41 @@ model User {
   password     String
   role         String
   phone        String
-  refreshToken String?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
+  refreshToken String?
   Provider     Provider?
 }
 
 model Provider {
-  id           String   @id @default(uuid())
-  userId       String   @unique
-  user         User     @relation(fields: [userId], references: [id])
+  id           String     @id @default(uuid())
+  userId       String     @unique
   businessName String
   description  String?
   address      String?
   photoUrl     String?
+  active       Boolean    @default(false)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  linkCode     String     @unique
   website      String?
-  linkCode     String   @unique
-  active       Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  currency     String   @default("XOF")
+  currency     String     @default("XOF")
+  customers    Customer[]
+  user         User       @relation(fields: [userId], references: [id])
   service      Service?
+}
+
+model Customer {
+  id          String   @id @default(cuid())
+  firstname   String
+  lastname    String
+  phoneNumber String
+  providerId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  provider    Provider @relation(fields: [providerId], references: [id])
+
+  @@index([providerId])
 }
 
 model ServiceOption {
@@ -56,42 +63,28 @@ model ServiceOption {
 }
 
 model Schedule {
-  id        String    @id @default(uuid())
+  id        String   @id @default(uuid())
   serviceId String
-  service   Service   @relation(fields: [serviceId], references: [id])
   startTime DateTime
   endTime   DateTime
-  isBooked  Boolean   @default(false)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  bookings  Booking[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isBooked  Boolean  @default(false)
+  service   Service  @relation(fields: [serviceId], references: [id])
 
-  @@unique([serviceId, startTime, endTime]) // Ensure unique schedules for each service and time
+  @@unique([serviceId, startTime, endTime])
 }
 
 model Service {
   id          String          @id @default(uuid())
   providerId  String          @unique
-  provider    Provider        @relation(fields: [providerId], references: [id])
   name        String
   description String?
-  duration    Int // Duration in minutes
+  duration    Int
   price       Decimal
-  options     ServiceOption[] @relation("ServiceOptions")
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   schedulers  Schedule[]
-  bookings    Booking[]
-}
-
-// waiting the customer model to be created
-model Booking {
-  id         String   @id @default(uuid())
-  serviceId  String
-  service    Service  @relation(fields: [serviceId], references: [id])
-  scheduleId String
-  schedule   Schedule @relation(fields: [scheduleId], references: [id])
-  status     String   @default("PENDING") // e.g., PENDING, CONFIRMED, CANCELLED
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  provider    Provider        @relation(fields: [providerId], references: [id])
+  options     ServiceOption[] @relation("ServiceOptions")
 }
