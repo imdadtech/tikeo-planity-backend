@@ -1,14 +1,6 @@
 import { z } from 'zod';
 import decimalSchema from '../../utils/decimalSchema';
-
-const schedulerSchema = z
-  .object({
-    startTime: z.iso.datetime(),
-    endTime: z.iso.datetime(),
-  })
-  .refine((data) => data.endTime > data.startTime, {
-    message: 'endTime must be after startTime',
-  });
+import { schedulerSchema } from './scheduler.dto';
 
 const CreateServiceSchema = z.object({
   name: z

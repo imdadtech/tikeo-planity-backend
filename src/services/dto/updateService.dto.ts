@@ -1,18 +1,9 @@
 import { z } from 'zod';
 import decimalSchema from '../../utils/decimalSchema';
+import { schedulerSchema } from './scheduler.dto';
 
-const schedulerSchema = z
-  .object({
-    id: z.uuid(),
-    startTime: z.iso.datetime(),
-    endTime: z.iso.datetime(),
-  })
-  .refine((data) => data.endTime > data.startTime, {
-    message: 'endTime must be after startTime',
-  });
-
-const createSchedulerSchema = z.object({
-  schedulers: z.array(schedulerSchema.omit({ id: true })),
+const UpdateSchedulerSchema = schedulerSchema.extend({
+  id: z.uuid(),
 });
 
 const UpdateServiceSchema = z.object({
@@ -42,9 +33,9 @@ const UpdateServiceSchema = z.object({
       }),
     )
     .optional(),
-  schedulers: z.array(schedulerSchema).optional(),
+  schedulers: z.array(UpdateSchedulerSchema).optional(),
 });
 
 export type UpdateServiceDto = z.infer<typeof UpdateServiceSchema>;
 
-export { UpdateServiceSchema, schedulerSchema, createSchedulerSchema };
+export { UpdateServiceSchema, UpdateSchedulerSchema };

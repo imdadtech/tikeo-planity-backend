@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { schedulerSchema } from '../../dto/updateService.dto';
 import servicesService from '../../services/services.service';
+import { UpdateSchedulerSchema } from '../../dto/updateService.dto';
 
 async function updateScheduler(req: Request, res: Response) {
   const serviceId = req.params.serviceId;
@@ -8,7 +8,7 @@ async function updateScheduler(req: Request, res: Response) {
     return res.status(400).json({ message: 'Service ID is required' });
   }
 
-  const validationBodyResult = schedulerSchema.safeParse(req.body);
+  const validationBodyResult = UpdateSchedulerSchema.safeParse(req.body);
   if (!validationBodyResult.success) {
     return res
       .status(400)
