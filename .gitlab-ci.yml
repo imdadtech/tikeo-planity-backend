@@ -4,6 +4,9 @@ stages:
   - build
   - test
 
+include:
+  - component: gitlab.com/components/sast/sast@main
+
 .install_dependencies: &install_dependencies
   - pip install -r requirements.txt
 
