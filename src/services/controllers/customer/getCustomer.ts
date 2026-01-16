@@ -1,23 +1,21 @@
 import { Request, Response } from 'express';
-import providersService from '../services/providers.service';
-import { User } from '../../user/type';
-import { getProviderFromRequest } from '../utiles/getProviderFromRequest';
-
+import customerService from '../../services/customer.service';
+import { getServiceFromRequest } from '../../utiles/getServiceFromRequest';
 export const getCustomerById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const providerData = await getProviderFromRequest(req, res);
-    if (!providerData) return;
-    const { provider, provider_id } = providerData;
+    const serviceData = await getServiceFromRequest(req, res);
+    if (!serviceData) return;
+    const { service, service_id } = serviceData;
 
-    if (provider_id === undefined) {
+    if (service_id === undefined) {
       return res.status(400).json({
         success: false,
-        message: 'Provider ID is missing',
+        message: 'service ID is missing',
       });
     }
 
-    const customer = await providersService.getCustomerById(id, provider_id);
+    const customer = await customerService.getCustomerById(id, service_id);
 
     res.status(200).json({
       success: true,
@@ -33,13 +31,13 @@ export const getCustomerById = async (req: Request, res: Response) => {
 
 export const getAllCustomers = async (req: Request, res: Response) => {
   try {
-    const providerData = await getProviderFromRequest(req, res);
-    if (!providerData) return;
-    const { provider, provider_id } = providerData;
+    const serviceData = await getServiceFromRequest(req, res);
+    if (!serviceData) return;
+    const { service, service_id } = serviceData;
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
 
-    const result = await providersService.getAllCustomers(provider_id, page, limit);
+    const result = await customerService.getAllCustomers(service_id, page, limit);
 
     res.status(200).json({
       success: true,

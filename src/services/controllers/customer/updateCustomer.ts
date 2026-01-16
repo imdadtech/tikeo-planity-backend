@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
-import providersService from '../services/providers.service';
-import { User } from '../../user/type';
-import { CreateCustomerDataSchema } from '../dto/createCustomerData.dto';
-import { getProviderFromRequest } from '../utiles/getProviderFromRequest';
+import customerService from '../../services/customer.service';
+import { CreateCustomerDataSchema } from '../../dto/createCustomerData.dto';
+import { getServiceFromRequest } from '../../utiles/getServiceFromRequest';
 
 export async function updateCustomer(req: Request, res: Response) {
   const validationBodyResult = CreateCustomerDataSchema.safeParse(req.body);
@@ -10,45 +9,45 @@ export async function updateCustomer(req: Request, res: Response) {
   if (!validationBodyResult.success) {
     return res.status(400).json({
       success: false,
-      message: 'Invalid data',
+      message: 'Données de validation incorrectes',
       errors: validationBodyResult.error,
     });
   }
   const jsonHasKey = Object.keys(validationBodyResult.data).length > 0;
 
   if (!jsonHasKey) {
-    return res.status(400).json({ message: 'No data provided for update' });
+    return res.status(400).json({ message: 'Aucun service fourni pour la mise à jour' });
   }
 
   try {
     const { firstname, lastname, phoneNumber } = validationBodyResult.data;
-    const providerData = await getProviderFromRequest(req, res);
+    const providerData = await getServiceFromRequest(req, res);
     if (!providerData) return;
-    const { provider, provider_id } = providerData;
+    const { service, service_id } = providerData;
 
-    if (provider_id === undefined) {
+    if (service_id === undefined) {
       return res.status(400).json({
         success: false,
         message: 'Provider ID is missing',
       });
     }
 
-    const customer = await providersService.updateCustomer(
+    const customer = await customerService.updateCustomer(
       firstname,
       lastname,
       phoneNumber,
-      provider_id,
+      service_id,
     );
 
     return res.status(201).json({
       success: true,
-      message: 'Customer updqte succesfully',
+      message: 'Customer mis à jour avec succès',
       data: customer,
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: error instanceof Error ? error.message : 'Server Error',
+      message: error instanceof Error ? error.message : 'Erreur serveur',
     });
   }
 }

@@ -19,7 +19,7 @@ CREATE TABLE "Customer" (
     "firstname" TEXT NOT NULL,
     "lastname" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
-    "providerId" TEXT NOT NULL,
+    "ServiceId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -27,7 +27,7 @@ CREATE TABLE "Customer" (
 );
 
 -- CreateIndex
-CREATE INDEX "Customer_providerId_idx" ON "Customer"("providerId");
+CREATE INDEX "Customer_providerId_idx" ON "Customer"("ServiceId");
 
 -- AddForeignKey
-ALTER TABLE "Customer" ADD CONSTRAINT "Customer_providerId_fkey" FOREIGN KEY ("providerId") REFERENCES "Provider"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Customer" ADD CONSTRAINT "Customer_serviceId_fkey" FOREIGN KEY ("ServiceId") REFERENCES "Service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

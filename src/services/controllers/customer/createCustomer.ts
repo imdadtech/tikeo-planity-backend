@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
-import providersService from '../services/providers.service';
-import { User } from '../../user/type';
-import { CreateCustomerDataSchema } from '../dto/createCustomerData.dto';
-import { getProviderFromRequest } from '../utiles/getProviderFromRequest';
+import customerService from '../../services/customer.service';
+import { CreateCustomerDataSchema } from '../../dto/createCustomerData.dto';
+import { getServiceFromRequest } from '../../utiles/getServiceFromRequest';
 
 export async function createCustomer(req: Request, res: Response) {
   const validationBodyResult = CreateCustomerDataSchema.safeParse(req.body);
@@ -17,15 +16,15 @@ export async function createCustomer(req: Request, res: Response) {
 
   try {
     const { firstname, lastname, phoneNumber } = validationBodyResult.data;
-    const providerData = await getProviderFromRequest(req, res);
-    if (!providerData) return;
-    const { provider, provider_id } = providerData;
+    const serviceData = await getServiceFromRequest(req, res);
+    if (!serviceData) return;
+    const { service, service_id } = serviceData;
 
-    const customer = await providersService.createCustomer(
+    const customer = await customerService.createCustomer(
       firstname,
       lastname,
       phoneNumber,
-      provider_id,
+      service_id,
     );
 
     return res.status(201).json({
