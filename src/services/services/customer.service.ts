@@ -5,21 +5,21 @@ class CustomerService {
     firstname: string,
     lastname: string,
     phoneNumber: string,
-    ServiceId: string,
+    serviceId: string,
   ) {
     return prisma.customer.create({
-      data: { firstname, lastname, phoneNumber, ServiceId },
+      data: { firstname, lastname, phoneNumber, serviceId },
     });
   }
 
-  async getCustomerById(customerId: string, ServiceId: string) {
+  async getCustomerById(customerId: string, serviceId: string) {
     try {
       const customer = await prisma.customer.findUnique({
         where: {
           id: customerId,
         },
       });
-      if (!customer || customer.ServiceId !== ServiceId) {
+      if (!customer || customer.serviceId !== serviceId) {
         throw new Error('Accès refusé ou customer non trouvé');
       }
       return customer;
@@ -27,14 +27,14 @@ class CustomerService {
       throw new Error(`Error : ${error}`);
     }
   }
-  async getAllCustomers(ServiceId: string, page: number = 1, limit: number = 10) {
+  async getAllCustomers(serviceId: string, page: number = 1, limit: number = 10) {
     try {
       const skip = (page - 1) * limit;
 
       const [customers, total] = await Promise.all([
         prisma.customer.findMany({
           where: {
-            ServiceId,
+            serviceId,
           },
           skip,
           take: limit,
@@ -44,7 +44,7 @@ class CustomerService {
         }),
         prisma.customer.count({
           where: {
-            ServiceId,
+            serviceId,
           },
         }),
       ]);
@@ -70,8 +70,8 @@ class CustomerService {
     });
   }
 
-  async deleteCustomer(id: string, ServiceId: string) {
-    const customer = await this.getCustomerById(id, ServiceId);
+  async deleteCustomer(id: string, serviceId: string) {
+    const customer = await this.getCustomerById(id, serviceId);
     if (!customer) {
       throw new Error('Customer non trouvé ou accès refusé');
     }
