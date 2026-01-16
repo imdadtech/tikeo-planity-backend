@@ -1,4 +1,4 @@
-const { Storage } = require('@google-cloud/storage');
+import { Storage } from '@google-cloud/storage';
 const keyFileName = process.env.KEYFILENAME;
 const projectId = process.env.PROJECT_ID;
 const bucketName = process.env.BUCKET_NAME;

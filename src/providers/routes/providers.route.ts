@@ -5,9 +5,10 @@ import update from '../controllers/update';
 import createProviderService from '../../services/controllers/provider/createProviderService';
 import getProviderService from '../../services/controllers/provider/getProviderService';
 import schedulerRouter from '../../services/routes/scheduler/scheduler.route';
-import upload from '../../middlewares/multer-config';
-import uploadFile from '../controllers/uploadFile';
-import createBookingByOwner from '../../services/controllers/provider/createBookingByOwner';
+import { createCustomer } from '../controllers/createCustomer';
+import { getAllCustomers, getCustomerById } from '../controllers/getCustomer';
+import { updateCustomer } from '../controllers/updateCustomer';
+import deleteCustomer from '../controllers/deleteCustomer';
 
 const providersRouter = Router();
 
@@ -17,11 +18,15 @@ providersRouter.post('/', create);
 
 providersRouter.post(servicePath, createProviderService);
 providersRouter.get(servicePath, getProviderService);
-providersRouter.post(`${servicePath}/:serviceId/booking`, createBookingByOwner);
 providersRouter.use(schedulerRouter);
-providersRouter.put('/upload:userId', upload.single('file'), uploadFile);
 
 providersRouter.get('/me', me);
 providersRouter.put('/me', update);
+
+providersRouter.post('/customer', createCustomer);
+providersRouter.get('/customer/:id', getCustomerById);
+providersRouter.get('/customers', getAllCustomers);
+providersRouter.put('/customer/:id', updateCustomer);
+providersRouter.delete('/customer/:id', deleteCustomer);
 
 export default providersRouter;
