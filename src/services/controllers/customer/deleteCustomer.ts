@@ -4,7 +4,7 @@ import customerService from '../../services/customer.service';
 
 async function deleteCustomer(req: Request, res: Response) {
   try {
-    const { id } = req.params;
+    const { id } = req.params as { id: string };
     const serviceData = await getServiceFromRequest(req, res);
     if (!serviceData) return;
     const { service, service_id } = serviceData;

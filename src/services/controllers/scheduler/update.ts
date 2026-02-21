@@ -15,7 +15,7 @@ async function updateScheduler(req: Request, res: Response) {
       .json({ message: 'Invalid request body', errors: validationBodyResult.error });
   }
   try {
-    const updatedScheduler = await servicesService.updateService(serviceId, {
+    const updatedScheduler = await servicesService.updateService(serviceId as string, {
       schedulers: [validationBodyResult.data],
     });
 

@@ -18,7 +18,7 @@ async function createScheduler(req: Request, res: Response) {
       endTime: new Date(scheduler.endTime),
     }));
 
-    await schedulerService.create(serviceId, schedulers);
+    await schedulerService.create(serviceId as string, schedulers);
   } catch (error) {
     return res.status(500).json({ message: 'Internal Server Error' });
   }

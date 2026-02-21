@@ -5,7 +5,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -22,19 +21,19 @@ model User {
 }
 
 model Provider {
-  id           String     @id @default(uuid())
-  userId       String     @unique
+  id           String   @id @default(uuid())
+  userId       String   @unique
   businessName String
   description  String?
   address      String?
   photoUrl     String?
-  active       Boolean    @default(false)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  linkCode     String     @unique
+  active       Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  linkCode     String   @unique
   website      String?
-  currency     String     @default("XOF")
-  user         User       @relation(fields: [userId], references: [id])
+  currency     String   @default("XOF")
+  user         User     @relation(fields: [userId], references: [id])
   service      Service?
 }
 
@@ -84,7 +83,7 @@ model Service {
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   schedulers  Schedule[]
-  customers    Customer[]
+  customers   Customer[]
   provider    Provider        @relation(fields: [providerId], references: [id])
   options     ServiceOption[] @relation("ServiceOptions")
 }

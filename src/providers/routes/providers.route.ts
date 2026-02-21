@@ -5,10 +5,10 @@ import update from '../controllers/update';
 import createProviderService from '../../services/controllers/provider/createProviderService';
 import getProviderService from '../../services/controllers/provider/getProviderService';
 import schedulerRouter from '../../services/routes/scheduler/scheduler.route';
-import { createCustomer } from '../controllers/createCustomer';
-import { getAllCustomers, getCustomerById } from '../controllers/getCustomer';
-import { updateCustomer } from '../controllers/updateCustomer';
-import deleteCustomer from '../controllers/deleteCustomer';
+import { createCustomer } from '../../services/controllers/customer/createCustomer';
+import { getAllCustomers, getCustomerById } from '../../services/controllers/customer/getCustomer';
+import { updateCustomer } from '../../services/controllers/customer/updateCustomer';
+import deleteCustomer from '../../services/controllers/customer/deleteCustomer';
 
 const providersRouter = Router();
 

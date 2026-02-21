@@ -3,7 +3,7 @@ import customerService from '../../services/customer.service';
 import { getServiceFromRequest } from '../../utiles/getServiceFromRequest';
 export const getCustomerById = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params as { id: string };
     const serviceData = await getServiceFromRequest(req, res);
     if (!serviceData) return;
     const { service, service_id } = serviceData;

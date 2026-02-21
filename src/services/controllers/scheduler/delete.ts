@@ -4,7 +4,7 @@ import { Prisma } from '@prisma/client';
 
 async function deleteSchedule(req: Request, res: Response) {
   try {
-    const scheduleId = req.params.scheduleId;
+    const scheduleId = req.params.scheduleId as string;
 
     if (!scheduleId) {
       return res.status(400).json({ message: 'Schedule ID is required' });
